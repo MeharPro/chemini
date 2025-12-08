@@ -186,12 +186,16 @@ const CinematicBackground = ({ mode = 'default', intensity = 1 }) => {
             atomsRef.current = [];
 
             // More particles for cinematic mode
-            const pCount = mode === 'Chemini Advanced' ? 150 : 60;
+            const isMobile = window.innerWidth < 768;
+            const baseCount = mode === 'Chemini Advanced' ? 150 : 60;
+            const pCount = isMobile ? Math.floor(baseCount * 0.4) : baseCount;
+
             for (let i = 0; i < pCount; i++) particlesRef.current.push(new Particle());
 
             // Atoms only for cinematic mode
             if (mode === 'Chemini Advanced') {
-                for (let i = 0; i < 8; i++) atomsRef.current.push(new Atom());
+                const atomCount = isMobile ? 4 : 8;
+                for (let i = 0; i < atomCount; i++) atomsRef.current.push(new Atom());
             }
         };
         init();

@@ -981,4 +981,29 @@ body {
   .genesis-text-content {
     font-size: 1.5rem;
   }
+
+  .genesis-text-content.final-glow {
+    font-size: 1.8rem;
+  }
+
+  .input-area-container {
+    padding: 10px;
+    bottom: 10px;
+  }
+
+  .main-content {
+    padding: 0 16px;
+  }
+
+  .message.bot.no-avatar {
+    margin-left: 40px;
+  }
+
+  .cinematic-welcome .welcome-text {
+    font-size: 36px;
+  }
+
+  .cinematic-welcome .sub-text {
+    font-size: 24px;
+  }
 }
