@@ -1,0 +1,47 @@
+.genesis-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    /* Ensure vertical space */
+}
+
+.genesis-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-out;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.genesis-text.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.genesis-text.final {
+    font-size: 6rem;
+    color: #fff;
+    text-shadow:
+        0 0 20px #fff,
+        0 0 40px #4b90ff,
+        0 0 80px #4b90ff;
+    letter-spacing: 0.3em;
+}
+
+@media (max-width: 768px) {
+    .genesis-text {
+        font-size: 2rem;
+    }
+
+    .genesis-text.final {
+        font-size: 3rem;
+    }
+}
