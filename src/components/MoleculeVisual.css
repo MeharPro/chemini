@@ -1,0 +1,459 @@
+/* Base Visual Card Styles */
+.molecule-visual-wrapper {
+    width: 100%;
+    max-width: 600px;
+    margin: 16px 0;
+}
+
+.visual-card {
+    background: linear-gradient(135deg, rgba(30, 31, 32, 0.95), rgba(20, 21, 22, 0.98));
+    border: 1px solid rgba(168, 199, 250, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.visual-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(75, 144, 255, 0.08) 0%, transparent 50%);
+    animation: glowPulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.visual-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a8c7fa;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Protein Helix Visual */
+.protein-visual .helix-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    perspective: 500px;
+}
+
+.helix {
+    display: flex;
+    gap: 8px;
+    transform-style: preserve-3d;
+    animation: helixRotate 8s linear infinite;
+}
+
+@keyframes helixRotate {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.helix-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: helixWave 2s ease-in-out infinite;
+}
+
+@keyframes helixWave {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.node-ball {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4b90ff, #a8c7fa);
+    box-shadow: 0 0 15px rgba(75, 144, 255, 0.6);
+}
+
+.helix-node:nth-child(odd) .node-ball {
+    background: linear-gradient(135deg, #d96570, #ff8a94);
+    box-shadow: 0 0 15px rgba(217, 101, 112, 0.6);
+}
+
+.node-connector {
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(180deg, rgba(168, 199, 250, 0.8), rgba(168, 199, 250, 0.2));
+}
+
+/* Reaction Flow Visual */
+.reaction-visual .reaction-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 0;
+}
+
+.molecule-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    background: rgba(75, 144, 255, 0.1);
+    border: 1px solid rgba(75, 144, 255, 0.3);
+    border-radius: 12px;
+    color: #e3e3e3;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.molecule-node:hover {
+    background: rgba(75, 144, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.molecule-node.start {
+    border-color: rgba(155, 114, 203, 0.5);
+}
+
+.molecule-node.start svg {
+    color: #9b72cb;
+}
+
+.molecule-node.mid {
+    border-color: rgba(75, 144, 255, 0.5);
+}
+
+.molecule-node.mid svg {
+    color: #4b90ff;
+}
+
+.molecule-node.end {
+    border-color: rgba(217, 101, 112, 0.5);
+}
+
+.molecule-node.end svg {
+    color: #d96570;
+}
+
+.reaction-arrow {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 60px;
+    height: 40px;
+}
+
+.arrow-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(168, 199, 250, 0.3), rgba(168, 199, 250, 0.8));
+}
+
+.arrow-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.arrow-particles .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #a8c7fa;
+    border-radius: 50%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    animation: particleFlow 1.5s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(168, 199, 250, 0.8);
+}
+
+@keyframes particleFlow {
+    0% {
+        left: 0;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+.catalyst-icon {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffd700;
+    animation: sparkle 1s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+    }
+}
+
+/* Graph Visual */
+.graph-visual .chart-container {
+    padding: 10px 0;
+}
+
+.chart-title {
+    text-align: center;
+    color: #a8c7fa;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.chart-area {
+    display: flex;
+    gap: 16px;
+    height: 140px;
+}
+
+.y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #666;
+    font-size: 10px;
+    padding: 4px 0;
+}
+
+.bars {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 16px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0 16px;
+}
+
+.bar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.bar {
+    width: 100%;
+    max-width: 40px;
+    border-radius: 4px 4px 0 0;
+    animation: barGrow 1s ease-out forwards;
+    transform-origin: bottom;
+    box-shadow: 0 0 20px rgba(75, 144, 255, 0.3);
+}
+
+@keyframes barGrow {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.bar-label {
+    color: #888;
+    font-size: 11px;
+}
+
+/* Neural Network Visual */
+.network-visual .neural-network {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.network-layer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.network-node {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4b90ff, #a8c7fa);
+    box-shadow: 0 0 12px rgba(75, 144, 255, 0.5);
+    animation: nodePulse 2s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgba(75, 144, 255, 0.5);
+    }
+
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 20px rgba(75, 144, 255, 0.8);
+    }
+}
+
+.network-layer:first-child .network-node {
+    background: linear-gradient(135deg, #9b72cb, #c9a8e9);
+    box-shadow: 0 0 12px rgba(155, 114, 203, 0.5);
+}
+
+.network-layer:last-child .network-node {
+    background: linear-gradient(135deg, #d96570, #ff8a94);
+    box-shadow: 0 0 12px rgba(217, 101, 112, 0.5);
+}
+
+/* 3D Molecule Visual */
+.molecule3d-visual .molecule-3d {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    position: relative;
+    animation: moleculeRotate 10s linear infinite;
+}
+
+@keyframes moleculeRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.atom {
+    border-radius: 50%;
+    position: absolute;
+}
+
+.atom.central {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #4b90ff, #a8c7fa);
+    box-shadow: 0 0 30px rgba(75, 144, 255, 0.6);
+}
+
+.atom.orbital {
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #d96570, #ff8a94);
+    box-shadow: 0 0 15px rgba(217, 101, 112, 0.5);
+    animation: orbitalPulse 2s ease-in-out infinite;
+}
+
+.atom.orbital:nth-child(odd) {
+    background: linear-gradient(135deg, #9b72cb, #c9a8e9);
+    box-shadow: 0 0 15px rgba(155, 114, 203, 0.5);
+}
+
+@keyframes orbitalPulse {
+
+    0%,
+    100% {
+        transform: rotate(var(--angle)) translateX(50px) scale(1);
+    }
+
+    50% {
+        transform: rotate(var(--angle)) translateX(50px) scale(1.2);
+    }
+}
+
+.bond {
+    position: absolute;
+    width: 45px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(168, 199, 250, 0.6), transparent);
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Default Visual */
+.default-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px;
+}
+
+.default-icon {
+    color: #a8c7fa;
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
