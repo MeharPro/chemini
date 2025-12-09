@@ -206,10 +206,10 @@ const ChatArea = () => {
 
     const runGenesisChatSequence = async () => {
         const sequence = [
-            "SOMEONE ASKED ME ONCE",
-            "IS THIS ALL I HAVE?",
-            "AND I SAID NO",
-            "LET THERE BE LIGHT"
+            "IN THE BEGINNING",
+            "THERE WAS ONLY HYDROGEN",
+            "THEN CAME THE STARS",
+            "AND THEY FORGED THE ELEMENTS"
         ];
 
         for (let i = 0; i < sequence.length; i++) {
