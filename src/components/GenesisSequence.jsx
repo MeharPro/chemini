@@ -6,10 +6,10 @@ const GenesisSequence = ({ onComplete }) => {
     const [showText, setShowText] = useState(false);
 
     const sequence = [
-        "SOMEONE ASKED ME ONCE",
-        "IS THIS ALL I HAVE?",
-        "AND I SAID NO",
-        "LET THERE BE LIGHT"
+        "IN THE BEGINNING",
+        "THERE WAS ONLY HYDROGEN",
+        "THEN CAME THE STARS",
+        "AND THEY FORGED THE ELEMENTS"
     ];
 
     useEffect(() => {
