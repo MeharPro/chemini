@@ -211,18 +211,51 @@ const CinematicBackground = ({ mode = 'default', intensity = 1 }) => {
             // Draw Particles
             particlesRef.current.forEach(p => {
                 p.update();
+
+                // Big Bang Effect: Scale position from center based on intensity
+                // When intensity is 0, everything is at center. When 1, at normal position.
+                // We use a non-linear ease for the explosion to make it pop
+                const explosionScale = currentIntensity < 1
+                    ? Math.pow(currentIntensity, 3) // Cubic ease in for "explosion" feel
+                    : 1;
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+
+                // Temporarily override position for drawing
+                const originalX = p.x;
+                const originalY = p.y;
+
+                p.x = cx + (p.x - cx) * explosionScale;
+                p.y = cy + (p.y - cy) * explosionScale;
+
                 p.draw(ctx, currentIntensity);
+
+                // Restore position
+                p.x = originalX;
+                p.y = originalY;
             });
 
             // Draw Connections (Constellations)
             if (currentIntensity > 0.1) {
                 ctx.lineWidth = 0.5;
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const explosionScale = currentIntensity < 1 ? Math.pow(currentIntensity, 3) : 1;
+
                 for (let i = 0; i < particlesRef.current.length; i++) {
                     for (let j = i + 1; j < particlesRef.current.length; j++) {
                         const p1 = particlesRef.current[i];
                         const p2 = particlesRef.current[j];
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
+
+                        // Calculate exploded positions
+                        const p1x = cx + (p1.x - cx) * explosionScale;
+                        const p1y = cy + (p1.y - cy) * explosionScale;
+                        const p2x = cx + (p2.x - cx) * explosionScale;
+                        const p2y = cy + (p2.y - cy) * explosionScale;
+
+                        const dx = p1x - p2x;
+                        const dy = p1y - p2y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
 
                         if (dist < 100) {
@@ -230,8 +263,8 @@ const CinematicBackground = ({ mode = 'default', intensity = 1 }) => {
                             if (alpha > 0) {
                                 ctx.beginPath();
                                 ctx.strokeStyle = `rgba(75, 144, 255, ${alpha})`;
-                                ctx.moveTo(p1.x, p1.y);
-                                ctx.lineTo(p2.x, p2.y);
+                                ctx.moveTo(p1x, p1y);
+                                ctx.lineTo(p2x, p2y);
                                 ctx.stroke();
                             }
                         }
@@ -242,7 +275,23 @@ const CinematicBackground = ({ mode = 'default', intensity = 1 }) => {
             // Draw Atoms (Cinematic Mode)
             atomsRef.current.forEach(a => {
                 a.update();
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const explosionScale = currentIntensity < 1 ? Math.pow(currentIntensity, 3) : 1;
+
+                // Temporarily override position
+                const originalX = a.x;
+                const originalY = a.y;
+
+                a.x = cx + (a.x - cx) * explosionScale;
+                a.y = cy + (a.y - cy) * explosionScale;
+
                 a.draw(ctx, currentIntensity);
+
+                // Restore
+                a.x = originalX;
+                a.y = originalY;
             });
 
             animationRef.current = requestAnimationFrame(animate);
