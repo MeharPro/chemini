@@ -1,4 +1,4 @@
-# Chemini: Advances in Chemistry with AI 🧪🤖
+# Chemini: Advances in Chemistry with AI 
 
 **Chemini** is an interactive web application designed to mimic Google's Gemini interface. It serves as an immersive, AI-driven presentation exploring how Artificial Intelligence is transforming modern chemistry from molecular design to retrosynthesis.
 
