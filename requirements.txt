@@ -1,0 +1,11 @@
+# Chemini TTS Server Dependencies
+# Install with: pip install -r requirements.txt
+
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+moshi>=0.0.1
+
+# Note: moshi package provides Kyutai TTS functionality
+# If moshi is not available, install from:
+# pip install git+https://github.com/kyutai-labs/delayed-streams-modeling.git

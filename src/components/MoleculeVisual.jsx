@@ -1,30 +1,13 @@
 import React from 'react';
 import { Atom, TrendingUp, Zap, FlaskConical, Brain, Network, Sparkles } from 'lucide-react';
 import './MoleculeVisual.css';
+import ThreeMolecule from './ThreeMolecule';
+import ReactionRateSim from './ReactionRateSim';
 
 const MoleculeVisual = ({ type }) => {
     const renderContent = () => {
         switch (type) {
-            case 'protein':
-                return (
-                    <div className="visual-card protein-visual">
-                        <div className="visual-glow"></div>
-                        <div className="helix-container">
-                            <div className="helix">
-                                {[...Array(12)].map((_, i) => (
-                                    <div key={i} className="helix-node" style={{ animationDelay: `${i * 0.1}s` }}>
-                                        <div className="node-ball"></div>
-                                        <div className="node-connector"></div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="visual-label">
-                            <Atom size={16} />
-                            <span>AlphaFold Protein Structure Prediction</span>
-                        </div>
-                    </div>
-                );
+
 
             case 'reaction':
                 return (
@@ -33,7 +16,8 @@ const MoleculeVisual = ({ type }) => {
                         <div className="reaction-flow">
                             <div className="molecule-node start">
                                 <FlaskConical size={24} />
-                                <span>Reactants</span>
+                                <span>Complex Target</span>
+                                <small style={{ fontSize: '10px', opacity: 0.7 }}>C₂₄H₂₆O₅</small>
                             </div>
                             <div className="reaction-arrow">
                                 <div className="arrow-line"></div>
@@ -46,7 +30,8 @@ const MoleculeVisual = ({ type }) => {
                             </div>
                             <div className="molecule-node mid">
                                 <Brain size={24} />
-                                <span>AI Analysis</span>
+                                <span>Atom-Anchored LLM</span>
+                                <small style={{ fontSize: '10px', opacity: 0.7 }}>≥90% accuracy</small>
                             </div>
                             <div className="reaction-arrow">
                                 <div className="arrow-line"></div>
@@ -58,12 +43,13 @@ const MoleculeVisual = ({ type }) => {
                             </div>
                             <div className="molecule-node end">
                                 <Sparkles size={24} />
-                                <span>Products</span>
+                                <span>Simple Precursors</span>
+                                <small style={{ fontSize: '10px', opacity: 0.7 }}>Available</small>
                             </div>
                         </div>
                         <div className="visual-label">
                             <Network size={16} />
-                            <span>AI-Planned Retrosynthesis Pathway</span>
+                            <span>AI Retrosynthesis (arXiv:2510.16590)</span>
                         </div>
                     </div>
                 );
@@ -139,27 +125,34 @@ const MoleculeVisual = ({ type }) => {
 
             case 'molecule3d':
                 return (
-                    <div className="visual-card molecule3d-visual">
-                        <div className="visual-glow"></div>
-                        <div className="molecule-3d">
-                            <div className="atom central"></div>
-                            {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-                                <div
-                                    key={i}
-                                    className="atom orbital"
-                                    style={{
-                                        transform: `rotate(${angle}deg) translateX(50px)`,
-                                        animationDelay: `${i * 0.2}s`
-                                    }}
-                                >
-                                    <div className="bond"></div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="visual-label">
+                    <div className="visual-card molecule3d-visual" style={{ padding: 0, height: '400px' }}>
+                        {/* Removed visual-glow to ensure orbit controls work without overlay blocking events */}
+                        <ThreeMolecule type="molecule3d" />
+                        <div className="visual-label" style={{ position: 'absolute', bottom: 20, left: 20, right: 20, background: 'rgba(0,0,0,0.5)', borderRadius: 8, padding: 10 }}>
                             <Atom size={16} />
-                            <span>Molecular Structure Visualization</span>
+                            <span>Interactive 3D Structure (Drag to Rotate)</span>
                         </div>
+                    </div>
+                );
+
+            case 'protein':
+                return (
+                    <div className="visual-card protein-visual" style={{ padding: 0, height: '400px' }}>
+                        <ThreeMolecule type="protein" />
+                        <div className="visual-label" style={{ position: 'absolute', bottom: 20, left: 20, right: 20, background: 'rgba(0,0,0,0.5)', borderRadius: 8, padding: 10 }}>
+                            <Atom size={16} />
+                            <span>AlphaFold Protein Structure Prediction</span>
+                        </div>
+                    </div>
+                );
+
+
+
+            case 'kinetics':
+                return (
+                    <div className="visual-card kinetics-visual" style={{ padding: 0, height: 'auto', overflow: 'hidden' }}>
+                        <div className="visual-glow"></div>
+                        <ReactionRateSim />
                     </div>
                 );
 

@@ -1,0 +1,46 @@
+.speech-presentation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.exit-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: background 0.2s;
+}
+
+.exit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #4b90ff, #9b72cb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
