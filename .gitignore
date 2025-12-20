@@ -23,3 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Unused large files
+backup/
+src/assets/theme.mp3
+src/assets/react.svg
+AI-VoiceOver.docx
+AI-VoiceOver.md
+AI_Chemistry_Research_Planner.docx
+AI_Chemistry_Research_Planner.md
+Advanced in Chemistry Proposal.pdf
+AdvancedinChemistryProposal.html
+Advances In Chemistry With AI-transcript.txt
