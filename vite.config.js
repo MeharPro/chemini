@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/huggingface': {
+      '/api/chat': {
         target: 'https://router.huggingface.co',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/huggingface/, ''),
+        rewrite: (path) => '/v1/chat/completions',
         secure: true,
       },
     },

@@ -253,7 +253,7 @@ const ChatArea = ({ selectedModel, setGlowDropdown }) => {
 
         try {
             const response = await fetch(
-                '/api/huggingface/v1/chat/completions',
+                '/api/chat',
                 {
                     method: 'POST',
                     headers: {
