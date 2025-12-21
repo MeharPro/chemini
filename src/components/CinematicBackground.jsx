@@ -15,7 +15,9 @@ import {
     BigNumbersDisplay, ProteinStructure, ProteinInteraction,
     RetrosynthesisBackwards, CollisionSimulation,
     // LATEST ADDITIONS
-    ChemDFMMolecule, ScalePyramidComparison, GraphNeuralNetwork, AIEvolutionChart
+    ChemDFMMolecule, ScalePyramidComparison, GraphNeuralNetwork, AIEvolutionChart,
+    // BIOLOGY VISUALIZATIONS
+    StructuralBiology, AlphaFoldOutput, StructureVsFunction, DisorderedProtein
 } from './VisualComponents';
 
 // --- SCENE MANAGER ---
@@ -104,6 +106,15 @@ const SceneContent = ({ visualType, isPlaying, temperature }) => {
             return <GraphNeuralNetwork isPlaying={isPlaying} />;
         case 'ai_evolution_chart':
             return <AIEvolutionChart isPlaying={isPlaying} />;
+        // BIOLOGY VISUALIZATIONS
+        case 'structural_biology':
+            return <StructuralBiology isPlaying={isPlaying} />;
+        case 'alphafold_output':
+            return <AlphaFoldOutput isPlaying={isPlaying} />;
+        case 'structure_vs_function':
+            return <StructureVsFunction isPlaying={isPlaying} />;
+        case 'disordered_protein':
+            return <DisorderedProtein isPlaying={isPlaying} />;
         default:
             // Fallback
             return <SceneInit />;

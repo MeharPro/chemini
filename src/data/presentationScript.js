@@ -325,8 +325,8 @@ export const presentationScript = [
     visualType: 'scale_pyramid'
   },
   { startTime: 480.68, text: "which is actually small for a model.", sender: 'bot' },
-  { startTime: 483.06, text: "Models like chat GPT and GPT-5 and Gemini are over 1", sender: 'bot' },
-  { startTime: 487.6, text: ".5 trillion and even goes up to 5 trillion parameters.", sender: 'bot' },
+  { startTime: 483.06, text: "Models like ChatGPT and GPT-5 and Gemini are over", sender: 'bot' },
+  { startTime: 487.6, text: "1.5 trillion and even goes up to 5 trillion parameters.", sender: 'bot' },
   {
     startTime: 491.54, text: "And parameters is the capacity of those neural networks.", sender: 'bot',
     visualType: 'neural_network_dots'
@@ -339,12 +339,11 @@ export const presentationScript = [
   { startTime: 504.02, text: "on chemical benchmarks.", sender: 'bot' },
   { startTime: 505.58, text: "The size of the model isn\'t everything.", sender: 'bot' },
   { startTime: 507.8, text: "This is what matters.", sender: 'bot' },
-  { startTime: 509.14, text: "Specialization", sender: 'bot' },
   {
-    startTime: 511.66, text: "and understanding the actual content and being trained on it.", sender: 'bot',
+    startTime: 509.14, text: "Specification, specialization and understanding the actual content and being trained on it.", sender: 'bot',
     visualType: 'big_numbers_display'
   },
-  { startTime: 514.42, text: "What matters?", sender: 'bot' },
+  { startTime: 514.42, text: "Is what matters.", sender: 'bot' },
   { startTime: 515.48, text: "And this is what research has found out.", sender: 'bot' },
   { startTime: 518.48, text: "So how does ChemDFM compare to the", sender: 'bot' },
   { startTime: 520.92, text: "alpha-fold models we\'ve had before?", sender: 'bot' },
@@ -362,11 +361,11 @@ export const presentationScript = [
   { startTime: 537.5, text: "sequences into 3D structures,", sender: 'bot' },
   {
     startTime: 539.5, text: "revolutionizing structural biology.", sender: 'bot',
-    visualType: 'evolution_timeline'
+    visualType: 'structural_biology'
   },
   {
     startTime: 543.78, text: "here\'s a protein structure visualization.", sender: 'bot',
-    visualType: 'synthesis_roadmap'
+    visualType: 'alphafold_output'
   },
   { startTime: 545.86, text: "The kind of output alpha-fold produces.", sender: 'bot' },
   { startTime: 548.68, text: "ChemDFM on the other hand focuses on chemical synthesis", sender: 'bot' },
@@ -376,14 +375,14 @@ export const presentationScript = [
     startTime: 554.92, text: "molecules that interact with proteins,", sender: 'bot',
     visualType: 'protein_interaction'
   },
-  { startTime: 557.8, text: "one predicts structure,", sender: 'bot' },
+  { startTime: 557.8, text: "one predicts structure,", sender: 'bot', visualType: 'structure_vs_function' },
   { startTime: 559.1, text: "and the other designs function.", sender: 'bot' },
   { startTime: 561.7, text: "So alpha-fold predicts the structure", sender: 'bot' },
   { startTime: 563.98, text: "and ChemDFM designs the function.", sender: 'bot' },
   { startTime: 568.48, text: "The arXiv paper 2502.11326", sender: 'bot' },
   { startTime: 574.54, text: "on IDP4 to actually addresses alpha-folds limitations.", sender: 'bot' },
   { startTime: 579.2, text: "It struggles", sender: 'bot' },
-  { startTime: 580.34, text: "with this ordered proteins that don\'t have the structures.", sender: 'bot' },
+  { startTime: 580.34, text: "with disordered proteins that don\'t have the structures.", sender: 'bot', visualType: 'disordered_protein' },
   { startTime: 584.66, text: "The field keeps pushing forward.", sender: 'bot' },
   { startTime: 584.92, text: "So the field keeps pushing forward to go over this barrier.", sender: 'bot' },
   { startTime: 589.2, text: "So finally let\'s talk about retro synthesis.", sender: 'bot' },
@@ -401,9 +400,9 @@ export const presentationScript = [
   },
   { startTime: 605.2, text: "commercially available starting materials.", sender: 'bot' },
   { startTime: 607.32, text: "It\'s kind of similar to what we did in organic chemistry.", sender: 'bot' },
-  { startTime: 610.62, text: "And it breaks through from arcsive to 510.1659.", sender: 'bot' },
+  { startTime: 610.62, text: "And it breaks through from arXiv paper 2510.1659.", sender: 'bot' },
   { startTime: 617.92, text: "So this model is designed to identify the", sender: 'bot' },
-  { startTime: 621.52, text: "molecules and attract them through the reaction.", sender: 'bot' },
+  { startTime: 621.52, text: "molecules and react them through the reaction.", sender: 'bot' },
   { startTime: 626.9, text: "This atom level reasoning achieves over 90% accuracy", sender: 'bot' },
   { startTime: 630.82, text: "and identifying where reactions should happen.", sender: 'bot' },
   {

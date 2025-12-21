@@ -800,27 +800,130 @@ export const QuestionMark = () => {
     );
 };
 
-// 23. Computer Chip
-export const ComputerChip = () => {
+// 23. Computer Chip - AI Core Visualization
+export const ComputerChip = ({ isPlaying }) => {
+    const groupRef = useRef();
+    const [pulse, setPulse] = useState(0);
+
+    useFrame((state) => {
+        if (groupRef.current && isPlaying) {
+            groupRef.current.rotation.y += 0.003;
+        }
+        setPulse(Math.sin(state.clock.elapsedTime * 3) * 0.5 + 0.5);
+    });
+
+    // Circuit traces
+    const traces = useMemo(() => [
+        { start: [-2, 0, 0], end: [-1, 0, 0] },
+        { start: [2, 0, 0], end: [1, 0, 0] },
+        { start: [0, 0, -2], end: [0, 0, -1] },
+        { start: [0, 0, 2], end: [0, 0, 1] },
+        { start: [-1.5, 0, -1.5], end: [-0.7, 0, -0.7] },
+        { start: [1.5, 0, 1.5], end: [0.7, 0, 0.7] },
+        { start: [-1.5, 0, 1.5], end: [-0.7, 0, 0.7] },
+        { start: [1.5, 0, -1.5], end: [0.7, 0, -0.7] },
+    ], []);
+
     return (
-        <group rotation={[Math.PI / 4, Math.PI / 4, 0]}>
-            <Box args={[4, 0.2, 4]}>
-                <meshStandardMaterial color="#222" metalness={0.8} roughness={0.2} />
-            </Box>
-            {/* Pins */}
-            {Array.from({ length: 10 }).map((_, i) => (
-                <Box key={i} position={[-2.2, 0, (i - 4.5) * 0.4]} args={[0.4, 0.1, 0.2]}>
-                    <meshStandardMaterial color="gold" metalness={1} />
-                </Box>
-            ))}
-            {Array.from({ length: 10 }).map((_, i) => (
-                <Box key={i + 10} position={[2.2, 0, (i - 4.5) * 0.4]} args={[0.4, 0.1, 0.2]}>
-                    <meshStandardMaterial color="gold" metalness={1} />
-                </Box>
-            ))}
-            <Text position={[0, 0.11, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.5} color="white">
-                AI CORE
+        <group ref={groupRef}>
+            <Text position={[0, 4, 0]} fontSize={0.6} color="#ffffff">
+                AI Neural Processor
             </Text>
+            <Text position={[0, 3.3, 0]} fontSize={0.3} color="#888888">
+                Powering ChemDFM's Intelligence
+            </Text>
+
+            {/* Main chip body */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[3, 0.3, 3]} />
+                <meshStandardMaterial
+                    color="#1a1a2e"
+                    metalness={0.9}
+                    roughness={0.2}
+                />
+            </mesh>
+
+            {/* Central processing core */}
+            <mesh position={[0, 0.2, 0]}>
+                <boxGeometry args={[1.2, 0.15, 1.2]} />
+                <meshStandardMaterial
+                    color="#4488ff"
+                    emissive="#2266cc"
+                    emissiveIntensity={0.3 + pulse * 0.4}
+                    metalness={0.7}
+                />
+            </mesh>
+
+            {/* Neural network pattern on core */}
+            {[...Array(9)].map((_, i) => {
+                const x = (i % 3 - 1) * 0.35;
+                const z = (Math.floor(i / 3) - 1) * 0.35;
+                return (
+                    <mesh key={i} position={[x, 0.35, z]}>
+                        <sphereGeometry args={[0.08]} />
+                        <meshStandardMaterial
+                            color="#00ffff"
+                            emissive="#00ffff"
+                            emissiveIntensity={0.5 + pulse * 0.5}
+                        />
+                    </mesh>
+                );
+            })}
+
+            {/* Circuit traces */}
+            {traces.map((trace, i) => (
+                <SimpleLine
+                    key={i}
+                    points={[trace.start, trace.end]}
+                    color="#44ff88"
+                />
+            ))}
+
+            {/* Chip pins */}
+            {[...Array(8)].map((_, i) => {
+                const side = Math.floor(i / 2);
+                const pos = (i % 2) * 1.2 - 0.6;
+                const positions = [
+                    [-1.7, 0, pos],
+                    [1.7, 0, pos],
+                    [pos, 0, -1.7],
+                    [pos, 0, 1.7]
+                ];
+                return (
+                    <mesh key={i} position={positions[side]}>
+                        <boxGeometry args={[0.3, 0.1, 0.15]} />
+                        <meshStandardMaterial color="#ffcc44" metalness={1} />
+                    </mesh>
+                );
+            })}
+
+            {/* Data flow particles */}
+            {traces.map((trace, i) => {
+                const t = (pulse + i * 0.1) % 1;
+                const x = trace.start[0] + (trace.end[0] - trace.start[0]) * t;
+                const z = trace.start[2] + (trace.end[2] - trace.start[2]) * t;
+                return (
+                    <mesh key={`particle-${i}`} position={[x, 0.2, z]}>
+                        <sphereGeometry args={[0.06]} />
+                        <meshStandardMaterial
+                            color="#00ff88"
+                            emissive="#00ff88"
+                            emissiveIntensity={1}
+                        />
+                    </mesh>
+                );
+            })}
+
+            {/* Label */}
+            <Text position={[0, 0.5, 0]} fontSize={0.2} color="#ffffff" rotation={[-Math.PI / 2, 0, 0]}>
+                ChemDFM
+            </Text>
+
+            {/* Glow effect */}
+            <pointLight position={[0, 1, 0]} color="#4488ff" intensity={1 + pulse} distance={5} />
+
+            <ambientLight intensity={0.4} />
+            <pointLight position={[5, 5, 5]} intensity={0.8} />
         </group>
     );
 }
@@ -1343,50 +1446,150 @@ export const ProteinStructure = ({ isPlaying }) => {
     );
 };
 
-// 34. Protein Interaction (ChemDFM + AlphaFold)
+// 34. Protein Interaction - Drug-Protein Binding Visualization
 export const ProteinInteraction = ({ isPlaying }) => {
     const groupRef = useRef();
-    const [offset, setOffset] = useState(3);
+    const [bindingProgress, setBindingProgress] = useState(0);
 
     useFrame((state) => {
-        if (isPlaying) {
-            const newOffset = Math.max(0.5, 3 - state.clock.elapsedTime * 0.3);
-            setOffset(newOffset);
+        if (groupRef.current && isPlaying) {
+            groupRef.current.rotation.y += 0.005;
+        }
+        if (isPlaying && bindingProgress < 1) {
+            setBindingProgress(prev => Math.min(prev + 0.008, 1));
         }
     });
 
+    // Protein surface points (irregular blob)
+    const proteinPoints = useMemo(() => {
+        const points = [];
+        for (let i = 0; i < 80; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 2 + Math.random() * 0.5;
+            points.push({
+                x: r * Math.sin(phi) * Math.cos(theta) - 1.5,
+                y: r * Math.sin(phi) * Math.sin(theta),
+                z: r * Math.cos(phi),
+                size: 0.15 + Math.random() * 0.1,
+                color: `hsl(${340 + Math.random() * 40}, 60%, 50%)`
+            });
+        }
+        return points;
+    }, []);
+
+    // Binding pocket (concave region)
+    const pocketPoints = useMemo(() => {
+        const points = [];
+        for (let i = 0; i < 15; i++) {
+            const angle = (i / 15) * Math.PI * 2;
+            const r = 0.8;
+            points.push({
+                x: 0.8 + Math.cos(angle) * r * 0.5,
+                y: Math.sin(angle) * r,
+                z: 0,
+            });
+        }
+        return points;
+    }, []);
+
+    // Drug molecule
+    const drugOffset = 4 - bindingProgress * 3.2;
+
     return (
         <group ref={groupRef}>
-            {/* Protein (left) */}
-            <group position={[-offset, 0, 0]}>
-                <mesh>
-                    <icosahedronGeometry args={[1.5, 1]} />
-                    <meshStandardMaterial color="#ff6688" transparent opacity={0.8} />
+            <Text position={[0, 4.5, 0]} fontSize={0.55} color="#ffffff">
+                Drug-Protein Binding
+            </Text>
+            <Text position={[0, 3.8, 0]} fontSize={0.28} color="#888888">
+                ChemDFM Designs Molecules That Fit Protein Pockets
+            </Text>
+
+            {/* Protein surface */}
+            {proteinPoints.map((p, i) => (
+                <mesh key={i} position={[p.x, p.y, p.z]}>
+                    <sphereGeometry args={[p.size]} />
+                    <meshStandardMaterial
+                        color={p.color}
+                        transparent
+                        opacity={0.85}
+                    />
                 </mesh>
-                <Text position={[0, 2.2, 0]} fontSize={0.4} color="white">
-                    AlphaFold
-                </Text>
+            ))}
+
+            {/* Binding pocket highlight */}
+            {pocketPoints.map((p, i) => (
+                <mesh key={`pocket-${i}`} position={[p.x, p.y, p.z]}>
+                    <sphereGeometry args={[0.18]} />
+                    <meshStandardMaterial
+                        color="#ffff44"
+                        emissive="#aaaa00"
+                        emissiveIntensity={0.5 + bindingProgress * 0.5}
+                    />
+                </mesh>
+            ))}
+
+            {/* Drug molecule approaching */}
+            <group position={[drugOffset, 0, 0]}>
+                {/* Central ring */}
+                <mesh>
+                    <torusGeometry args={[0.4, 0.15, 8, 16]} />
+                    <meshStandardMaterial
+                        color="#44ff88"
+                        emissive="#22aa44"
+                        emissiveIntensity={0.4}
+                    />
+                </mesh>
+                {/* Functional groups */}
+                {[0, 120, 240].map((angle, i) => {
+                    const rad = (angle * Math.PI) / 180;
+                    return (
+                        <mesh key={i} position={[Math.cos(rad) * 0.6, Math.sin(rad) * 0.6, 0]}>
+                            <sphereGeometry args={[0.15]} />
+                            <meshStandardMaterial color={["#ff4466", "#4488ff", "#ffaa44"][i]} />
+                        </mesh>
+                    );
+                })}
+
+                {bindingProgress < 0.5 && (
+                    <Text position={[0, 1, 0]} fontSize={0.25} color="#44ff88">
+                        Drug
+                    </Text>
+                )}
             </group>
 
-            {/* Small molecule (right) */}
-            <group position={[offset, 0, 0]}>
-                <mesh>
-                    <dodecahedronGeometry args={[0.8]} />
-                    <meshStandardMaterial color="#66ff88" emissive="#228844" />
-                </mesh>
-                <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">
-                    ChemDFM
-                </Text>
-            </group>
-
-            {/* Binding glow when close */}
-            {offset < 1.5 && (
-                <pointLight position={[0, 0, 0]} color="#ffff00" intensity={3} distance={5} />
+            {/* Binding glow when docked */}
+            {bindingProgress > 0.8 && (
+                <>
+                    <pointLight position={[0.8, 0, 0]} color="#00ff88" intensity={3} distance={4} />
+                    <Text position={[0, -3.2, 0]} fontSize={0.35} color="#00ff88">
+                        ✓ Binding Complete
+                    </Text>
+                </>
             )}
 
-            <Text position={[0, -3, 0]} fontSize={0.5} color="#ffaa00">
-                Complementary Interaction
+            {/* Labels */}
+            <Text position={[-2.5, -2.5, 0]} fontSize={0.25} color="#ff88aa">
+                Protein Target
             </Text>
+            <Text position={[1, -2.5, 0]} fontSize={0.2} color="#ffff44">
+                Binding Pocket
+            </Text>
+
+            {/* Progress indicator */}
+            <group position={[0, -3.8, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <boxGeometry args={[6, 0.15, 0.1]} />
+                    <meshStandardMaterial color="#333333" />
+                </mesh>
+                <mesh position={[(bindingProgress - 0.5) * 3, 0, 0.05]}>
+                    <boxGeometry args={[bindingProgress * 6, 0.15, 0.1]} />
+                    <meshStandardMaterial color="#00ff88" />
+                </mesh>
+            </group>
+
+            <ambientLight intensity={0.4} />
+            <pointLight position={[5, 5, 5]} intensity={1} />
         </group>
     );
 };
@@ -2082,6 +2285,384 @@ export const AIEvolutionChart = ({ isPlaying }) => {
 
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
+        </group>
+    );
+};
+
+// ========================================
+// STRUCTURAL BIOLOGY VISUALIZATION
+// ========================================
+export const StructuralBiology = ({ isPlaying }) => {
+    const groupRef = useRef();
+
+    useFrame((state) => {
+        if (groupRef.current && isPlaying) {
+            groupRef.current.rotation.y += 0.005;
+        }
+    });
+
+    // DNA double helix points
+    const helixPoints = useMemo(() => {
+        const points = [];
+        for (let i = 0; i < 40; i++) {
+            const t = i * 0.3;
+            points.push({
+                x1: Math.cos(t) * 1.5,
+                y1: t - 6,
+                z1: Math.sin(t) * 1.5,
+                x2: Math.cos(t + Math.PI) * 1.5,
+                y2: t - 6,
+                z2: Math.sin(t + Math.PI) * 1.5,
+            });
+        }
+        return points;
+    }, []);
+
+    return (
+        <group ref={groupRef}>
+            <Text position={[0, 5, 0]} fontSize={0.6} color="#ffffff">
+                Structural Biology
+            </Text>
+            <Text position={[0, 4.3, 0]} fontSize={0.3} color="#888888">
+                Understanding Life at the Molecular Level
+            </Text>
+
+            {/* DNA Double Helix */}
+            <group position={[-3, 0, 0]}>
+                {helixPoints.map((p, i) => (
+                    <group key={i}>
+                        {/* Backbone spheres */}
+                        <mesh position={[p.x1, p.y1, p.z1]}>
+                            <sphereGeometry args={[0.15]} />
+                            <meshStandardMaterial color="#ff4466" emissive="#ff2244" emissiveIntensity={0.3} />
+                        </mesh>
+                        <mesh position={[p.x2, p.y2, p.z2]}>
+                            <sphereGeometry args={[0.15]} />
+                            <meshStandardMaterial color="#4488ff" emissive="#2266ff" emissiveIntensity={0.3} />
+                        </mesh>
+                        {/* Base pair connections */}
+                        {i % 3 === 0 && (
+                            <SimpleLine points={[[p.x1, p.y1, p.z1], [p.x2, p.y2, p.z2]]} color="#44ff88" />
+                        )}
+                    </group>
+                ))}
+                <Text position={[0, -5, 0]} fontSize={0.3} color="#aaaaaa">DNA</Text>
+            </group>
+
+            {/* Protein Structure */}
+            <group position={[3, 0, 0]}>
+                <mesh>
+                    <torusKnotGeometry args={[1.2, 0.3, 100, 16]} />
+                    <meshStandardMaterial color="#aa44ff" emissive="#6622aa" emissiveIntensity={0.3} />
+                </mesh>
+                <Text position={[0, -2.5, 0]} fontSize={0.3} color="#aaaaaa">Protein</Text>
+            </group>
+
+            <ambientLight intensity={0.5} />
+            <pointLight position={[5, 5, 5]} intensity={1} />
+        </group>
+    );
+};
+
+// ========================================
+// ALPHAFOLD PROTEIN OUTPUT VISUALIZATION
+// ========================================
+export const AlphaFoldOutput = ({ isPlaying }) => {
+    const groupRef = useRef();
+    const [confidence, setConfidence] = useState(0);
+
+    useFrame((state) => {
+        if (groupRef.current && isPlaying) {
+            groupRef.current.rotation.y += 0.003;
+            groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+        }
+        if (isPlaying && confidence < 1) {
+            setConfidence(prev => Math.min(prev + 0.005, 1));
+        }
+    });
+
+    // Protein backbone points (alpha helix + beta sheet simulation)
+    const backbone = useMemo(() => {
+        const points = [];
+        // Alpha helix section
+        for (let i = 0; i < 30; i++) {
+            const t = i * 0.4;
+            points.push({
+                x: Math.cos(t) * 0.8 - 2,
+                y: t * 0.3 - 2,
+                z: Math.sin(t) * 0.8,
+                confidence: 0.9 + Math.random() * 0.1, // High confidence
+                type: 'helix'
+            });
+        }
+        // Beta sheet section
+        for (let i = 0; i < 15; i++) {
+            points.push({
+                x: 1 + (i % 5) * 0.5,
+                y: Math.floor(i / 5) * 1 - 1,
+                z: (i % 2) * 0.3,
+                confidence: 0.7 + Math.random() * 0.2,
+                type: 'sheet'
+            });
+        }
+        // Loop section
+        for (let i = 0; i < 10; i++) {
+            const t = i * 0.5;
+            points.push({
+                x: 2.5 + Math.sin(t) * 0.5,
+                y: 1 + i * 0.3,
+                z: Math.cos(t) * 0.5,
+                confidence: 0.4 + Math.random() * 0.3, // Lower confidence
+                type: 'loop'
+            });
+        }
+        return points;
+    }, []);
+
+    // Color based on pLDDT confidence (AlphaFold style)
+    const getConfidenceColor = (conf) => {
+        if (conf > 0.9) return "#0000ff"; // Very high - blue
+        if (conf > 0.7) return "#00ccff"; // High - cyan
+        if (conf > 0.5) return "#ffff00"; // Medium - yellow
+        return "#ff6600"; // Low - orange
+    };
+
+    return (
+        <group ref={groupRef}>
+            <Text position={[0, 5, 0]} fontSize={0.55} color="#ffffff">
+                AlphaFold Protein Structure
+            </Text>
+            <Text position={[0, 4.3, 0]} fontSize={0.28} color="#888888">
+                pLDDT Confidence Coloring
+            </Text>
+
+            {/* Protein backbone */}
+            {backbone.map((p, i) => (
+                <mesh key={i} position={[p.x, p.y, p.z]}>
+                    <sphereGeometry args={[p.type === 'helix' ? 0.2 : 0.15]} />
+                    <meshStandardMaterial
+                        color={getConfidenceColor(p.confidence * confidence)}
+                        emissive={getConfidenceColor(p.confidence * confidence)}
+                        emissiveIntensity={0.3}
+                    />
+                </mesh>
+            ))}
+
+            {/* Connections */}
+            {backbone.slice(0, -1).map((p, i) => {
+                const next = backbone[i + 1];
+                if (next && Math.abs(p.x - next.x) < 2) {
+                    return (
+                        <SimpleLine
+                            key={`conn-${i}`}
+                            points={[[p.x, p.y, p.z], [next.x, next.y, next.z]]}
+                            color="#666666"
+                        />
+                    );
+                }
+                return null;
+            })}
+
+            {/* Legend */}
+            <group position={[4.5, 0, 0]}>
+                <Text position={[0, 2, 0]} fontSize={0.25} color="#ffffff">Confidence:</Text>
+                {[
+                    { label: ">90% Very High", color: "#0000ff", y: 1.4 },
+                    { label: ">70% High", color: "#00ccff", y: 0.9 },
+                    { label: ">50% Medium", color: "#ffff00", y: 0.4 },
+                    { label: "<50% Low", color: "#ff6600", y: -0.1 },
+                ].map((item, i) => (
+                    <group key={i} position={[0, item.y, 0]}>
+                        <mesh position={[-0.8, 0, 0]}>
+                            <sphereGeometry args={[0.12]} />
+                            <meshStandardMaterial color={item.color} />
+                        </mesh>
+                        <Text position={[0, 0, 0]} fontSize={0.15} color="#aaaaaa" anchorX="left">
+                            {item.label}
+                        </Text>
+                    </group>
+                ))}
+            </group>
+
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+        </group>
+    );
+};
+
+// ========================================
+// STRUCTURE VS FUNCTION COMPARISON
+// ========================================
+export const StructureVsFunction = ({ isPlaying }) => {
+    const groupRef = useRef();
+
+    useFrame((state) => {
+        if (groupRef.current && isPlaying) {
+            groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+        }
+    });
+
+    return (
+        <group ref={groupRef}>
+            <Text position={[0, 4.5, 0]} fontSize={0.5} color="#ffffff">
+                Two Approaches to Protein AI
+            </Text>
+
+            {/* Left side - Structure Prediction */}
+            <group position={[-3.5, 0, 0]}>
+                <Text position={[0, 2.5, 0]} fontSize={0.4} color="#4488ff">
+                    Predicts Structure
+                </Text>
+                <Text position={[0, 2, 0]} fontSize={0.25} color="#888888">
+                    (AlphaFold)
+                </Text>
+
+                {/* Amino acid sequence arrow to 3D structure */}
+                <Text position={[0, 0.8, 0]} fontSize={0.2} color="#aaaaaa">
+                    Sequence → 3D Shape
+                </Text>
+
+                {/* 3D folded protein */}
+                <mesh position={[0, -0.5, 0]}>
+                    <torusKnotGeometry args={[0.8, 0.2, 64, 16]} />
+                    <meshStandardMaterial color="#4488ff" emissive="#2266ff" emissiveIntensity={0.4} />
+                </mesh>
+
+                <Text position={[0, -2.2, 0]} fontSize={0.18} color="#666666" maxWidth={3}>
+                    "What shape does this protein fold into?"
+                </Text>
+            </group>
+
+            {/* Center divider */}
+            <SimpleLine points={[[0, 2.5, 0], [0, -2.5, 0]]} color="#444444" />
+            <Text position={[0, 0, 0]} fontSize={0.4} color="#ffaa00">VS</Text>
+
+            {/* Right side - Function Design */}
+            <group position={[3.5, 0, 0]}>
+                <Text position={[0, 2.5, 0]} fontSize={0.4} color="#44ff88">
+                    Designs Function
+                </Text>
+                <Text position={[0, 2, 0]} fontSize={0.25} color="#888888">
+                    (RFdiffusion)
+                </Text>
+
+                {/* Function to structure */}
+                <Text position={[0, 0.8, 0]} fontSize={0.2} color="#aaaaaa">
+                    Function → New Protein
+                </Text>
+
+                {/* Designed protein with binding site */}
+                <mesh position={[0, -0.5, 0]}>
+                    <dodecahedronGeometry args={[0.9]} />
+                    <meshStandardMaterial color="#44ff88" emissive="#22aa44" emissiveIntensity={0.4} wireframe />
+                </mesh>
+                <mesh position={[0.6, -0.3, 0.6]}>
+                    <sphereGeometry args={[0.25]} />
+                    <meshStandardMaterial color="#ff4488" emissive="#ff2266" emissiveIntensity={0.5} />
+                </mesh>
+
+                <Text position={[0, -2.2, 0]} fontSize={0.18} color="#666666" maxWidth={3}>
+                    "Design a protein that binds to X"
+                </Text>
+            </group>
+
+            <ambientLight intensity={0.5} />
+            <pointLight position={[5, 5, 5]} intensity={1} />
+        </group>
+    );
+};
+
+// ========================================
+// DISORDERED PROTEIN VISUALIZATION
+// ========================================
+export const DisorderedProtein = ({ isPlaying }) => {
+    const groupRef = useRef();
+    const positions = useRef([]);
+
+    // Initialize random positions
+    useMemo(() => {
+        positions.current = [];
+        for (let i = 0; i < 60; i++) {
+            positions.current.push({
+                x: (Math.random() - 0.5) * 6,
+                y: (Math.random() - 0.5) * 4,
+                z: (Math.random() - 0.5) * 2,
+                vx: (Math.random() - 0.5) * 0.02,
+                vy: (Math.random() - 0.5) * 0.02,
+                vz: (Math.random() - 0.5) * 0.01,
+            });
+        }
+    }, []);
+
+    const [atoms, setAtoms] = useState(positions.current);
+
+    useFrame(() => {
+        if (!isPlaying) return;
+
+        setAtoms(prev => prev.map(p => {
+            let newX = p.x + p.vx;
+            let newY = p.y + p.vy;
+            let newZ = p.z + p.vz;
+
+            // Keep within bounds with smooth bounce
+            if (Math.abs(newX) > 3) { p.vx *= -0.8; newX = Math.sign(newX) * 3; }
+            if (Math.abs(newY) > 2) { p.vy *= -0.8; newY = Math.sign(newY) * 2; }
+            if (Math.abs(newZ) > 1) { p.vz *= -0.8; newZ = Math.sign(newZ) * 1; }
+
+            // Add slight random movement (Brownian motion)
+            p.vx += (Math.random() - 0.5) * 0.005;
+            p.vy += (Math.random() - 0.5) * 0.005;
+
+            return { ...p, x: newX, y: newY, z: newZ };
+        }));
+    });
+
+    return (
+        <group ref={groupRef}>
+            <Text position={[0, 4, 0]} fontSize={0.5} color="#ffffff">
+                Intrinsically Disordered Protein
+            </Text>
+            <Text position={[0, 3.4, 0]} fontSize={0.28} color="#888888">
+                No Fixed 3D Structure - Constantly Fluctuating
+            </Text>
+
+            {/* Disordered chain */}
+            {atoms.map((p, i) => (
+                <mesh key={i} position={[p.x, p.y, p.z]}>
+                    <sphereGeometry args={[0.12]} />
+                    <meshStandardMaterial
+                        color={`hsl(${200 + i * 2}, 70%, 50%)`}
+                        emissive={`hsl(${200 + i * 2}, 70%, 30%)`}
+                        emissiveIntensity={0.3}
+                        transparent
+                        opacity={0.8}
+                    />
+                </mesh>
+            ))}
+
+            {/* Faint connections between nearby atoms */}
+            {atoms.slice(0, -1).map((p, i) => {
+                const next = atoms[i + 1];
+                const dist = Math.sqrt((p.x - next.x) ** 2 + (p.y - next.y) ** 2);
+                if (dist < 1) {
+                    return (
+                        <SimpleLine
+                            key={`line-${i}`}
+                            points={[[p.x, p.y, p.z], [next.x, next.y, next.z]]}
+                            color="#4488aa"
+                        />
+                    );
+                }
+                return null;
+            })}
+
+            {/* Explanation */}
+            <Text position={[0, -3.2, 0]} fontSize={0.22} color="#ffaa44" maxWidth={8}>
+                These proteins lack stable structure - a challenge for AlphaFold
+            </Text>
+
+            <ambientLight intensity={0.4} />
+            <pointLight position={[5, 5, 5]} intensity={1} color="#aaddff" />
         </group>
     );
 };
