@@ -45,7 +45,7 @@ const CHEMISTRY_SYSTEM_PROMPT = `You are ChemDFM, an advanced AI chemistry speci
 
 You are passionate about chemistry and excited to help users understand this fascinating field.`;
 
-const ChatArea = ({ selectedModel, setGlowDropdown }) => {
+const ChatArea = ({ selectedModel, setGlowDropdown, activeRecentChat, setActiveRecentChat }) => {
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +72,16 @@ const ChatArea = ({ selectedModel, setGlowDropdown }) => {
     const [collisionTemperature, setCollisionTemperature] = useState(50);
 
     const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+
+    // Load recent chat messages when activeRecentChat changes
+    useEffect(() => {
+        if (activeRecentChat && activeRecentChat.messages) {
+            setMessages([...activeRecentChat.messages]);
+        } else if (activeRecentChat === null) {
+            // Clear messages for new chat
+            setMessages([]);
+        }
+    }, [activeRecentChat]);
 
     const messagesEndRef = useRef(null);
     const { fadeIn, fadeOut } = useAudio(); // Keeping for legacy/other sounds if needed
@@ -117,7 +127,11 @@ const ChatArea = ({ selectedModel, setGlowDropdown }) => {
 
     // Watch for Model Change
     useEffect(() => {
-        setMessages([]);
+        // Only clear messages if we're NOT loading a recent chat
+        // (recent chats handle their own message loading)
+        if (!activeRecentChat) {
+            setMessages([]);
+        }
         setScriptIndex(-1);
 
         // Stop any running presentation
@@ -129,6 +143,12 @@ const ChatArea = ({ selectedModel, setGlowDropdown }) => {
 
         if (selectedModel === 'Chemini Advanced') {
             setIsPresentationRunning(true);
+            // Clear any active recent chat when entering presentation mode
+            // so chat messages don't appear in captions
+            if (setActiveRecentChat) {
+                setActiveRecentChat(null);
+            }
+            setMessages([]);
         } else {
             setIsPresentationRunning(false);
         }

@@ -148,6 +148,16 @@ body {
   background-color: #28292a;
 }
 
+.recent-item.active {
+  background: linear-gradient(135deg, rgba(75, 144, 255, 0.2), rgba(155, 114, 203, 0.15));
+  border: 1px solid rgba(75, 144, 255, 0.3);
+  box-shadow: 0 0 10px rgba(75, 144, 255, 0.1);
+}
+
+.recent-item.active:hover {
+  background: linear-gradient(135deg, rgba(75, 144, 255, 0.25), rgba(155, 114, 203, 0.2));
+}
+
 .sidebar-bottom {
   display: flex;
   flex-direction: column;

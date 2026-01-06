@@ -7,7 +7,7 @@ import Citations from './components/Citations';
 import './App.css';
 
 // Layout component to include Sidebar only on main routes
-const MainLayout = ({ selectedModel, setSelectedModel, glowDropdown, setGlowDropdown }) => {
+const MainLayout = ({ selectedModel, setSelectedModel, glowDropdown, setGlowDropdown, activeRecentChat, setActiveRecentChat }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
 
   const toggleSidebar = () => {
@@ -23,8 +23,15 @@ const MainLayout = ({ selectedModel, setSelectedModel, glowDropdown, setGlowDrop
         onToggle={toggleSidebar}
         glowDropdown={glowDropdown}
         setGlowDropdown={setGlowDropdown}
+        activeRecentChat={activeRecentChat}
+        setActiveRecentChat={setActiveRecentChat}
       />
-      <ChatArea selectedModel={selectedModel} setGlowDropdown={setGlowDropdown} />
+      <ChatArea
+        selectedModel={selectedModel}
+        setGlowDropdown={setGlowDropdown}
+        activeRecentChat={activeRecentChat}
+        setActiveRecentChat={setActiveRecentChat}
+      />
     </div>
   );
 };
@@ -32,12 +39,13 @@ const MainLayout = ({ selectedModel, setSelectedModel, glowDropdown, setGlowDrop
 function App() {
   const [selectedModel, setSelectedModel] = React.useState('Chemini Advanced');
   const [glowDropdown, setGlowDropdown] = React.useState(false);
+  const [activeRecentChat, setActiveRecentChat] = React.useState(null);
 
   return (
     <AudioProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainLayout selectedModel={selectedModel} setSelectedModel={setSelectedModel} glowDropdown={glowDropdown} setGlowDropdown={setGlowDropdown} />} />
+          <Route path="/" element={<MainLayout selectedModel={selectedModel} setSelectedModel={setSelectedModel} glowDropdown={glowDropdown} setGlowDropdown={setGlowDropdown} activeRecentChat={activeRecentChat} setActiveRecentChat={setActiveRecentChat} />} />
           <Route path="/citations" element={<Citations standalone={true} />} />
         </Routes>
       </BrowserRouter>
